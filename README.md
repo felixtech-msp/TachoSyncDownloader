@@ -17,12 +17,17 @@ If the program managing your .DDD files moves successfully processed files to a 
 you need to set the optional SUCCESS_DIRECTORY property to that folder. This prevents files from
 being downloaded multiple times.
 
+If the program managing your .DDD files moves failed files to a different directory,
+you need to set the optional FAILED_DIRECTORY property to that folder. This prevents files from
+being downloaded multiple times.
+
 For example:
 ```
 API_KEY=SGVsbG8gV29ybGQgOik=
 COMPANY=6954c47a-a5c5-4753-86f7-d82472524aee
 TARGET_DIRECTORY=E:\\tachodata
 SUCCESS_DIRECTORY=E:\\tachodata\\Success
+FAILED_DIRECTORY=E:\\tachodata\\Failed
 DOWNLOAD_FREQUENCY_MINUTES=15
 ```
 
@@ -36,7 +41,8 @@ The API key can be configured under Integrations > API.
 
 To run the program automatically in the background, NSSM (Non-Sucking Service Manager) is recommended.
 
-To install the Windows Service, first download NSSM from the official website (https://nssm.cc/download),
+To install the Windows Service, first download NSSM from the official website (https://nssm.cc/download)
+and place `nssm.exe` into the application directory,
 then run the following commands as Administrator (make sure the paths are set according to your environment):
 
 ```
@@ -47,6 +53,8 @@ then run the following commands as Administrator (make sure the paths are set ac
 .\nssm.exe set TachoSyncDL AppStderr "C:\TachoSyncDL\service_err.log"
 .\nssm.exe set TachoSyncDL Start SERVICE_AUTO_START
 ```
+
+Do not remove `nssm.exe` anymore! It's required to run the service.
 
 Attention! Windows is very bugged when it comes to environment variables and services. Make sure
 to set the full path to your Java installation and reinstall the service when the path changes

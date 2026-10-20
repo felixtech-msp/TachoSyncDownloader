@@ -30,6 +30,11 @@ public final class Downloader implements Runnable {
     public void run() {
         String targetDirectory = Settings.getInstance().get("TARGET_DIRECTORY");
         String successDirectory = Settings.getInstance().get("SUCCESS_DIRECTORY", targetDirectory);
+        String failedDirectory = Settings.getInstance().get("FAILED_DIRECTORY", targetDirectory);
+
+        logger.info("Target directory: {}", targetDirectory);
+        logger.info("Success directory: {}", successDirectory);
+        logger.info("Failed directory: {}", failedDirectory);
 
         try {
             JSONArray driverFiles = getPages(DRIVER_FILES_URL);
@@ -39,7 +44,13 @@ public final class Downloader implements Runnable {
                 String id = driverFile.getString("id");
                 String fileName = driverFile.getString("fileName");
 
+                if (Files.exists(Paths.get(targetDirectory, fileName)))
+                    continue;
+
                 if (Files.exists(Paths.get(successDirectory, fileName)))
+                    continue;
+
+                if (Files.exists(Paths.get(failedDirectory, fileName)))
                     continue;
 
                 downloadFile(DRIVER_FILES_URL, id, fileName);
@@ -57,7 +68,13 @@ public final class Downloader implements Runnable {
                 String id = vehicleFile.getString("id");
                 String fileName = vehicleFile.getString("fileName");
 
+                if (Files.exists(Paths.get(targetDirectory, fileName)))
+                    continue;
+
                 if (Files.exists(Paths.get(successDirectory, fileName)))
+                    continue;
+
+                if (Files.exists(Paths.get(failedDirectory, fileName)))
                     continue;
 
                 downloadFile(VEHICLE_FILES_URL, id, fileName);

@@ -5,7 +5,6 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 public final class Main {
-
     public static void main(String[] args) {
         int frequency = Integer.parseInt(Settings.getInstance().get("DOWNLOAD_FREQUENCY_MINUTES", "15"));
         ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
